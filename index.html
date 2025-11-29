@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MeshLink — Decentralized Multi-Mirror Shortener</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f6f9fc;
+    --card: #ffffff;
+    --muted: #6b7280;
+    --accent: #2563eb; 
+    --accent-2: #7c3aed;
+    --radius: 14px;
+    --shadow: 0 10px 30px rgba(18,38,63,0.08);
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+
+  body{
+    margin:0;
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:36px;
+    color:#0f172a;
+  }
+
+  .card{
+    width:min(920px, 96%);
+    background:var(--card);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    padding:44px;
+    display:flex;
+    gap:32px;
+    align-items:center;
+    justify-content:space-between;
+  }
+
+  .left{
+    flex:1 1 480px;
+    min-width:320px;
+  }
+
+  /* NEW Rounded Logo Image Style */
+  .logo-img {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(124,58,237,0.35);
+      box-shadow:
+          0 8px 24px rgba(37,99,235,0.18),
+          inset 0 -4px 8px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+  }
+
+  .logo-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:18px;
+  }
+
+  .title{
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:-0.2px;
+  }
+
+  .subtitle{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:4px;
+  }
+
+  .input-wrap{
+    margin-top:18px;
+    display:flex;
+    gap:12px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+
+  .url-input {
+    flex:1 1 420px;
+    min-width:220px;
+    padding:14px 16px;
+    font-size:16px;
+    border-radius:12px;
+    border:1px solid #e6eef9;
+    background: linear-gradient(180deg,#fff,#fbfeff);
+    outline:none;
+    box-shadow:inset 0 1px 0 rgba(16,24,40,0.02);
+  }
+
+  .url-input:focus {
+      box-shadow:0 6px 20px rgba(37,99,235,0.08);
+      border-color: rgba(37,99,235,0.25);
+  }
+
+  select#storageMethod {
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #e6eef9;
+    background: #fff;
+    font-size:14px;
+  }
+
+  button#generateBtn {
+    background:linear-gradient(90deg,var(--accent), var(--accent-2));
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    box-shadow: 0 8px 24px rgba(37,99,235,0.14);
+  }
+
+  button#generateBtn[disabled] {
+    opacity:0.6; cursor:not-allowed; box-shadow:none;
+  }
+
+  .right{
+    width:360px;
+    min-width:240px;
+  }
+
+  .panel{
+    background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.96));
+    border-radius:12px;
+    padding:18px;
+    border:1px solid rgba(14,21,38,0.03);
+  }
+
+  .hint { color:var(--muted); font-size:13px; margin-bottom:12px; }
+
+  .output {
+    margin-top:12px;
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+
+  .short {
+    flex:1;
+    word-break:break-all;
+    padding:8px 10px;
+    background:#f7fbff;
+    border-radius:8px;
+    border:1px solid rgba(14,21,38,0.03);
+    font-weight:600;
+    color:#0b1220;
+  }
+
+  .btn-copy {
+    background:#fff;
+    border:1px solid #e6eef9;
+    padding:8px 10px;
+    border-radius:8px;
+    cursor:pointer;
+  }
+
+  .examples {
+    margin-top:14px;
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  footer {
+    margin-top:18px;
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  @media (max-width:920px){
+    .card { flex-direction:column; align-items:stretch; padding:28px; gap:18px; }
+    .right{ width:100%; order:3 }
+  }
+
+</style>
+</head>
+<body>
+
+  <main class="card" role="main" aria-labelledby="mesh-title">
+    <section class="left">
+
+      <!-- Updated Logo Block -->
+      <div class="brand">
+        <div class="logo-img">
+          <img src="logo.jpg" alt="MeshLink Logo">
+        </div>
+
+        <div>
+          <div id="mesh-title" class="title">MeshLink</div>
+          <div class="subtitle">Decentralized multi-mirror URL redirects — resilient & private</div>
+        </div>
+      </div>
+
+      <input id="inputBox" class="url-input" type="url" placeholder="Paste a URL to shorten..." />
+
+      <div class="input-wrap">
+        <select id="storageMethod">
+          <option value="mirror">A: Mirrors (recommended)</option>
+          <option value="ipfs">B: IPFS (Local Node)</option>
+        </select>
+
+        <button id="generateBtn">Generate</button>
+      </div>
+
+      <div style="margin-top:18px;color:var(--muted);font-size:13px;">
+        Choose where to store: Fast mirrors or IPFS on your device.
+      </div>
+
+    </section>
+
+    <aside class="right">
+      <div class="panel">
+        <div class="hint">Short link (click to copy)</div>
+
+        <div class="output">
+          <div id="shortOut" class="short">—</div>
+          <button id="copyBtn" class="btn-copy">Copy</button>
+        </div>
+
+        <div class="examples">
+          Example: <strong>https://yourdomain.com/abc123</strong>
+          <br><br>
+          Mapping and encrypted payload are stored across multiple mirrors.
+        </div>
+
+        <footer>MeshLink Prototype</footer>
+      </div>
+    </aside>
+
+  </main>
+
+<script>
+function genShortId(len = 6){
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  return Array.from(crypto.getRandomValues(new Uint8Array(len)))
+      .map(v => chars[v % chars.length]).join('');
+}
+
+function isValidUrl(s) {
+  try { new URL(s); return true; }
+  catch(e){ return false; }
+}
+
+document.getElementById('generateBtn').onclick = async () => {
+  const url = document.getElementById('inputBox').value.trim();
+  if (!isValidUrl(url)) {
+    alert("Invalid URL");
+    return;
+  }
+
+  const btn = document.getElementById('generateBtn');
+  btn.disabled = true; btn.textContent = "Creating…";
+
+  const sid = genShortId(7);
+  const shortURL = `${location.origin}/${sid}`;
+
+  await new Promise(r => setTimeout(r, 700));
+
+  document.getElementById('shortOut').textContent = shortURL;
+
+  btn.disabled = false; btn.textContent = "Generate";
+};
+
+document.getElementById('copyBtn').onclick = () => {
+  const txt = document.getElementById('shortOut').textContent.trim();
+  if (txt !== "—") navigator.clipboard.writeText(txt);
+};
+</script>
+
+</body>
+</html>
