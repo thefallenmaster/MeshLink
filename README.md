@@ -1,0 +1,3 @@
+Mirror Discovery & Validation (Ongoing)
+
+MeshLink continuously identifies, tests, and validates free, publicly accessible paste-style services that can reliably store its encrypted payloads and mapping files. Each mirror is checked for raw accessibility, stability, and compatibility, and only those meeting the core requirements are included in MeshLink’s decentralized redirect network. This process runs on an ongoing basis to ensure redundancy, uptime, and a database-free architecture that remains resilient even if individual mirrors go offline.
